@@ -1,2 +1,12 @@
+# Existing ignored bundle internals
 MacMirror.app/Contents/Info.plist
 MacMirror.app/Contents/MacOS/MacMirror
+
+# Ignore full app bundle and common build artifacts
+MacMirror.app/
+*.dSYM/
+*.o
+*.log
+
+# Test binary
+run_tests

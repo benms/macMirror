@@ -28,6 +28,13 @@ MacMirror is a minimal macOS Cocoa app written in Objective-C that displays a li
 ```
 make build
 ```
+
+## Test
+```
+make test
+```
+make build
+```
 This produces a bundle at `MacMirror.app/`.
 
 ## Run

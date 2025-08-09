@@ -1,4 +1,5 @@
 #import "CameraController.h"
+#import "CameraMath.h"
 
 @interface CameraController ()
 @property (nonatomic, strong) AVCaptureSession *session;
@@ -91,7 +92,7 @@
 }
 
 - (void)setZoom:(CGFloat)zoomFactor {
-    zoomFactor = MAX(1.0, MIN(self.maxZoom, zoomFactor));
+    zoomFactor = ClampZoom(zoomFactor, self.maxZoom);
     self.currentZoom = zoomFactor;
 
     [self applyTransform];
@@ -120,8 +121,8 @@
 
 - (void)applyTransform {
     // Compose horizontal flip (if any) and zoom scale
-    CGFloat sx = (self.flipped ? -1.0 : 1.0) * self.currentZoom;
-    CGFloat sy = self.currentZoom;
+    CGFloat sx = 1.0, sy = 1.0;
+    ComputeScale(self.flipped, self.currentZoom, &sx, &sy);
     if (self.currentZoom == 1.0 && !self.flipped) {
         self.previewLayer.affineTransform = CGAffineTransformIdentity;
     } else {

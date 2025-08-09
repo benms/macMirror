@@ -2,7 +2,7 @@ APP_NAME := MacMirror
 BUNDLE := $(APP_NAME).app
 EXECUTABLE := $(BUNDLE)/Contents/MacOS/$(APP_NAME)
 INFOPLIST := Info.plist
-SRC := main.m AppDelegate.m CameraController.m CameraView.m
+SRC := main.m AppDelegate.m CameraController.m CameraView.m CameraMath.h
 
 $(BUNDLE): $(EXECUTABLE) $(INFOPLIST)
 	@mkdir -p "$(BUNDLE)/Contents/Resources"
@@ -20,3 +20,13 @@ run: build
 
 clean:
 	rm -rf "$(BUNDLE)"
+
+# --- Tests ---
+TEST_EXE := run_tests
+TEST_SRC := Tests/CameraMathTests.m
+
+test: $(TEST_EXE)
+	./$(TEST_EXE)
+
+$(TEST_EXE): $(TEST_SRC) CameraMath.h
+	clang -fobjc-arc -framework Cocoa -o "$(TEST_EXE)" $(TEST_SRC)
