@@ -24,14 +24,13 @@ MacMirror is a minimal macOS Cocoa app written in Objective-C that displays a li
 - macOS with a built-in or connected camera
 - Xcode Command Line Tools (for clang and SDKs)
 
-## Build
-```
-make build
-```
 
 ## Test
 ```
 make test
+```
+
+## Build
 ```
 make build
 ```
