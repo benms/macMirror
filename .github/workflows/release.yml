@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version (without leading v), e.g. 0.1.2'
+        required: true
+        type: string
+
+jobs:
+  build-release:
+    runs-on: macos-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: xcodebuild -version || true
+
+      - name: Build app
+        run: make build
+
+      - name: Create DMG (tag push)
+        if: github.event_name == 'push'
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          VERSION="${TAG#v}"
+          make dmg VERSION="$VERSION"
+
+      - name: Create DMG (manual)
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          VERSION="${{ inputs.version }}"
+          make dmg VERSION="$VERSION"
+
+      - name: Upload Release Asset (tag push)
+        if: github.event_name == 'push'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            MacMirror-*.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Release Asset (manual)
+        if: github.event_name == 'workflow_dispatch'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ inputs.version }}
+          name: v${{ inputs.version }}
+          draft: true
+          files: |
+            MacMirror-*.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+

@@ -1,4 +1,6 @@
 APP_NAME := MacMirror
+# Version used for packaging (can be overridden via environment)
+VERSION ?= 0.1
 BUNDLE := $(APP_NAME).app
 EXECUTABLE := $(BUNDLE)/Contents/MacOS/$(APP_NAME)
 INFOPLIST := Info.plist
@@ -19,7 +21,14 @@ run: build
 	open "$(BUNDLE)"
 
 clean:
-	rm -rf "$(BUNDLE)"
+	rm -rf "$(BUNDLE)" "$(APP_NAME)-$(VERSION).dmg"
+
+# Package a compressed DMG from the built app bundle
+# Override VERSION when invoking to change output name: e.g., VERSION=0.2 make dmg
+DMG := $(APP_NAME)-$(VERSION).dmg
+
+dmg: build
+	hdiutil create -volname "$(APP_NAME)" -srcfolder "$(BUNDLE)" -ov -format UDZO "$(DMG)"
 
 # --- Tests ---
 TEST_EXE := run_tests

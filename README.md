@@ -61,6 +61,16 @@ On first launch, macOS will prompt for camera access. Grant permission to see th
 - Panning is available when zoom > 1.0x. At 1.0x, drag does nothing.
 - If you need pan bounds/clamping (to avoid moving the view too far), this can be added.
 
+## Package (DMG)
+- Create a DMG locally (defaults to VERSION=0.1):
+```
+make dmg
+```
+- Override version:
+```
+VERSION=0.2 make dmg
+```
+
 ## Troubleshooting
 - "Could not start camera": Ensure no other app is exclusively using the camera and that you granted camera permissions in System Settings → Privacy & Security → Camera.
 - Build errors about SDKs: Make sure you have Xcode and Command Line Tools installed.
