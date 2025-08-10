@@ -10,3 +10,6 @@ MacMirror.app/
 
 # Test binary
 run_tests
+.DS_Store
+CLAUDE.md
+tools/optimize_images.py
