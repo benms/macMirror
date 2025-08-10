@@ -56,7 +56,7 @@
 }
 
 - (void)setupWindow {
-    NSRect frame = NSMakeRect(100, 100, 1000, 700);
+    NSRect frame = NSMakeRect(0, 0, 1000, 700);
     self.window = [[NSWindow alloc] initWithContentRect:frame
                                               styleMask:(NSWindowStyleMaskTitled |
                                                          NSWindowStyleMaskClosable |
@@ -65,6 +65,9 @@
                                                 backing:NSBackingStoreBuffered
                                                   defer:NO];
     self.window.title = @"MacMirror";
+    
+    // Center the window on the screen
+    [self.window center];
 
     // Camera view fills the window content, with an optional control bar at bottom
     NSView *content = self.window.contentView;
