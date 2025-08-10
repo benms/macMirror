@@ -71,6 +71,15 @@ make dmg
 VERSION=0.2 make dmg
 ```
 
+## Install (macOS)
+- Open the generated DMG file.
+- In the window that appears, drag `MacMirror.app` to the `Applications` folder.
+- If macOS reports the app is damaged or blocked due to quarantine, remove the flag and then open the app:
+```
+ xattr -r -d com.apple.quarantine "/Applications/MacMirror.app"
+```
+- The first time, right‑click `MacMirror` in Applications and choose Open to confirm.
+
 ## Troubleshooting
 - "Could not start camera": Ensure no other app is exclusively using the camera and that you granted camera permissions in System Settings → Privacy & Security → Camera.
 - Build errors about SDKs: Make sure you have Xcode and Command Line Tools installed.
