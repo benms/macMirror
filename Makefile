@@ -44,9 +44,18 @@ clean:
 # Package a compressed DMG from the built app bundle
 # Override VERSION when invoking to change output name: e.g., VERSION=0.2 make dmg
 DMG := $(APP_NAME)-$(VERSION).dmg
+DMG_STAGING := build/dmg-staging
 
 dmg: build
-	hdiutil create -volname "$(APP_NAME)" -srcfolder "$(BUNDLE)" -ov -format UDZO "$(DMG)"
+	@echo "Creating enhanced DMG..."
+	@rm -rf "$(DMG_STAGING)"
+	@mkdir -p "$(DMG_STAGING)"
+	@cp -R "$(BUNDLE)" "$(DMG_STAGING)/"
+	@ln -s /Applications "$(DMG_STAGING)/Applications"
+	@echo "Creating install instructions..."
+	@echo "# Installation Instructions\n\n1. Drag MacMirror.app to the Applications folder\n2. If prompted about security, go to System Settings → Privacy & Security\n3. Click 'Open Anyway' next to the MacMirror security notice\n\nAlternatively, you can run this command in Terminal:\n\`\`\`\nxattr -r -d com.apple.quarantine \"/Applications/MacMirror.app\"\n\`\`\`" > "$(DMG_STAGING)/Installation Instructions.md"
+	hdiutil create -volname "$(APP_NAME)" -srcfolder "$(DMG_STAGING)" -ov -format UDZO "$(DMG)"
+	@rm -rf "$(DMG_STAGING)"
 
 # --- Tests ---
 TEST_EXE := run_tests

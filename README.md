@@ -63,22 +63,37 @@ On first launch, macOS will prompt for camera access. Grant permission to see th
 
 ## Package (DMG)
 - Create a DMG locally (defaults to VERSION=0.1):
-```
+```bash
 make dmg
 ```
 - Override version:
-```
+```bash
 VERSION=0.2 make dmg
 ```
+
+The DMG will include:
+- The MacMirror.app bundle
+- A symlink to Applications folder for easy installation
+- Installation instructions file with security guidance
 
 ## Install (macOS)
 - Open the generated DMG file.
 - In the window that appears, drag `MacMirror.app` to the `Applications` folder.
-- If macOS reports the app is damaged or blocked due to quarantine, remove the flag and then open the app:
+- **Security Notice**: Since this app is not code-signed with an Apple Developer ID, macOS will show a security warning. You have two options:
+
+### Option 1: System Settings (Recommended)
+1. Try to open MacMirror from Applications
+2. When macOS blocks it, go to **System Settings → Privacy & Security**
+3. Scroll down to find the security notice about MacMirror
+4. Click **"Open Anyway"**
+
+### Option 2: Terminal Command
+If you prefer using Terminal, run this command:
+```bash
+xattr -r -d com.apple.quarantine "/Applications/MacMirror.app"
 ```
- xattr -r -d com.apple.quarantine "/Applications/MacMirror.app"
-```
-- The first time, right‑click `MacMirror` in Applications and choose Open to confirm.
+
+**Note**: For the best user experience, future releases may include code signing to eliminate these security warnings.
 
 ## Troubleshooting
 - "Could not start camera": Ensure no other app is exclusively using the camera and that you granted camera permissions in System Settings → Privacy & Security → Camera.
