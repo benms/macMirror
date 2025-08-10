@@ -14,8 +14,45 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
+    [self setupMenu];
     [self setupWindow];
     [self setupCamera];
+}
+
+- (void)setupMenu {
+    // Create main menu bar
+    NSMenu *mainMenu = [[NSMenu alloc] initWithTitle:@""];
+    
+    // Application menu (first menu in menu bar)
+    NSMenuItem *appMenuItem = [[NSMenuItem alloc] init];
+    NSMenu *appMenu = [[NSMenu alloc] initWithTitle:@"MacMirror"];
+    
+    // Quit MacMirror menu item with Cmd+Q
+    NSMenuItem *quitMenuItem = [[NSMenuItem alloc] initWithTitle:@"Quit MacMirror"
+                                                          action:@selector(quitApp:)
+                                                   keyEquivalent:@"q"];
+    quitMenuItem.target = self;
+    [appMenu addItem:quitMenuItem];
+    
+    [appMenuItem setSubmenu:appMenu];
+    [mainMenu addItem:appMenuItem];
+    
+    // File menu
+    NSMenuItem *fileMenuItem = [[NSMenuItem alloc] init];
+    NSMenu *fileMenu = [[NSMenu alloc] initWithTitle:@"File"];
+    
+    // Close window menu item with Cmd+W
+    NSMenuItem *closeMenuItem = [[NSMenuItem alloc] initWithTitle:@"Close Window"
+                                                           action:@selector(closeWindow:)
+                                                    keyEquivalent:@"w"];
+    closeMenuItem.target = self;
+    [fileMenu addItem:closeMenuItem];
+    
+    [fileMenuItem setSubmenu:fileMenu];
+    [mainMenu addItem:fileMenuItem];
+    
+    // Set the main menu
+    [NSApp setMainMenu:mainMenu];
 }
 
 - (void)setupWindow {
@@ -143,6 +180,14 @@
 
 - (void)flipTapped:(NSButton *)sender {
     self.cameraController.flipped = !self.cameraController.isFlipped;
+}
+
+- (void)quitApp:(id)sender {
+    [NSApp terminate:self];
+}
+
+- (void)closeWindow:(id)sender {
+    [self.window performClose:self];
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender {

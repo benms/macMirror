@@ -52,9 +52,12 @@ On first launch, macOS will prompt for camera access. Grant permission to see th
   - Press and hold left mouse button and drag to move the zoomed preview
   - Hand cursor shows while dragging
 - Flip
-  - Click the “Flip” button (top-right) to toggle mirroring
+  - Click the "Flip" button (top-right) to toggle mirroring
 - Reset
   - Right-click anywhere to reset zoom to 1.0x and re-center (clear pan)
+- Keyboard shortcuts
+  - Press `⌘Q` to quit the application
+  - Press `⌘W` to close the window
 
 ## Notes and Limitations
 - On macOS, device-level camera zoom is generally unavailable. MacMirror applies zoom using an affine transform on the preview layer.
